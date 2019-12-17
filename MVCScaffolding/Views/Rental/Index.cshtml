@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Sakila.rental>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.rental_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.inventory_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customer_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.return_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.last_update)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.staff.first_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.rental_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.inventory_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customer_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.return_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.last_update)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.staff.first_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.rental_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.rental_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.rental_id })
+        </td>
+    </tr>
+}
+
+</table>

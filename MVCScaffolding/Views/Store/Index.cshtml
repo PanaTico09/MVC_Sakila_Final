@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Sakila.store>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.address_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.last_update)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.staff1.first_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.address_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.last_update)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.staff1.first_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.store_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.store_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.store_id })
+        </td>
+    </tr>
+}
+
+</table>

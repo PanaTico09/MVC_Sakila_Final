@@ -1,0 +1,14 @@
+C:\Users\Usuario\source\repos\Sakila\Sakila\obj\Debug\Sakila.csprojAssemblyReference.cache
+C:\Users\Usuario\source\repos\Sakila\Sakila\obj\Debug\Sakila.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\Sakila.dll.config
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\Sakila.dll
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\Sakila.pdb
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\EntityFramework.dll
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\EntityFramework.SqlServer.dll
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\EntityFramework.xml
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\EntityFramework.SqlServer.xml
+C:\Users\Usuario\source\repos\Sakila\Sakila\obj\Debug\Sakila.csproj.CopyComplete
+C:\Users\Usuario\source\repos\Sakila\Sakila\obj\Debug\Sakila.dll
+C:\Users\Usuario\source\repos\Sakila\Sakila\obj\Debug\Sakila.pdb
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\System.Data.SqlClient.dll
+C:\Users\Usuario\source\repos\Sakila\Sakila\bin\System.Data.SqlClient.xml

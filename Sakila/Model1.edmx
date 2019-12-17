@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="sakilaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="staff_id" Type="tinyint" Nullable="false" />
+          <Property Name="rental_id" Type="int" />
+          <Property Name="amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="payment_date" Type="datetime" Nullable="false" />
+          <Property Name="last_update" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rental">
+          <Key>
+            <PropertyRef Name="rental_id" />
+          </Key>
+          <Property Name="rental_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rental_date" Type="datetime" Nullable="false" />
+          <Property Name="inventory_id" Type="int" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="return_date" Type="datetime" />
+          <Property Name="staff_id" Type="tinyint" Nullable="false" />
+          <Property Name="last_update" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="staff">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="address_id" Type="int" Nullable="false" />
+          <Property Name="picture" Type="image" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="store_id" Type="int" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="40" />
+          <Property Name="last_update" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="store">
+          <Key>
+            <PropertyRef Name="store_id" />
+          </Key>
+          <Property Name="store_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="manager_staff_id" Type="tinyint" Nullable="false" />
+          <Property Name="address_id" Type="int" Nullable="false" />
+          <Property Name="last_update" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_payment_rental">
+          <End Role="rental" Type="Self.rental" Multiplicity="0..1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rental">
+              <PropertyRef Name="rental_id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="rental_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_payment_staff">
+          <End Role="staff" Type="Self.staff" Multiplicity="1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_rental_staff">
+          <End Role="staff" Type="Self.staff" Multiplicity="1" />
+          <End Role="rental" Type="Self.rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="rental">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_staff_store">
+          <End Role="store" Type="Self.store" Multiplicity="1" />
+          <End Role="staff" Type="Self.staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store">
+              <PropertyRef Name="store_id" />
+            </Principal>
+            <Dependent Role="staff">
+              <PropertyRef Name="store_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_store_staff">
+          <End Role="staff" Type="Self.staff" Multiplicity="1" />
+          <End Role="store" Type="Self.store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="store">
+              <PropertyRef Name="manager_staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sakilaModelStoreContainer">
+          <EntitySet Name="payment" EntityType="Self.payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rental" EntityType="Self.rental" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="staff" EntityType="Self.staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="store" EntityType="Self.store" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_payment_rental" Association="Self.fk_payment_rental">
+            <End Role="rental" EntitySet="rental" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_payment_staff" Association="Self.fk_payment_staff">
+            <End Role="staff" EntitySet="staff" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_rental_staff" Association="Self.fk_rental_staff">
+            <End Role="staff" EntitySet="staff" />
+            <End Role="rental" EntitySet="rental" />
+          </AssociationSet>
+          <AssociationSet Name="fk_staff_store" Association="Self.fk_staff_store">
+            <End Role="store" EntitySet="store" />
+            <End Role="staff" EntitySet="staff" />
+          </AssociationSet>
+          <AssociationSet Name="fk_store_staff" Association="Self.fk_store_staff">
+            <End Role="staff" EntitySet="staff" />
+            <End Role="store" EntitySet="store" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="sakilaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="staff_id" Type="Byte" Nullable="false" />
+          <Property Name="rental_id" Type="Int32" />
+          <Property Name="amount" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="rental" Relationship="Self.fk_payment_rental" FromRole="payment" ToRole="rental" />
+          <NavigationProperty Name="staff" Relationship="Self.fk_payment_staff" FromRole="payment" ToRole="staff" />
+        </EntityType>
+        <EntityType Name="rental">
+          <Key>
+            <PropertyRef Name="rental_id" />
+          </Key>
+          <Property Name="rental_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rental_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="inventory_id" Type="Int32" Nullable="false" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="return_date" Type="DateTime" Precision="3" />
+          <Property Name="staff_id" Type="Byte" Nullable="false" />
+          <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="payment" Relationship="Self.fk_payment_rental" FromRole="rental" ToRole="payment" />
+          <NavigationProperty Name="staff" Relationship="Self.fk_rental_staff" FromRole="rental" ToRole="staff" />
+        </EntityType>
+        <EntityType Name="staff">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address_id" Type="Int32" Nullable="false" />
+          <Property Name="picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="store_id" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="payment" Relationship="Self.fk_payment_staff" FromRole="staff" ToRole="payment" />
+          <NavigationProperty Name="rental" Relationship="Self.fk_rental_staff" FromRole="staff" ToRole="rental" />
+          <NavigationProperty Name="store" Relationship="Self.fk_staff_store" FromRole="staff" ToRole="store" />
+          <NavigationProperty Name="store1" Relationship="Self.fk_store_staff" FromRole="staff" ToRole="store" />
+        </EntityType>
+        <EntityType Name="store">
+          <Key>
+            <PropertyRef Name="store_id" />
+          </Key>
+          <Property Name="store_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="manager_staff_id" Type="Byte" Nullable="false" />
+          <Property Name="address_id" Type="Int32" Nullable="false" />
+          <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="staff" Relationship="Self.fk_staff_store" FromRole="store" ToRole="staff" />
+          <NavigationProperty Name="staff1" Relationship="Self.fk_store_staff" FromRole="store" ToRole="staff" />
+        </EntityType>
+        <Association Name="fk_payment_rental">
+          <End Role="rental" Type="Self.rental" Multiplicity="0..1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rental">
+              <PropertyRef Name="rental_id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="rental_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_payment_staff">
+          <End Role="staff" Type="Self.staff" Multiplicity="1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_rental_staff">
+          <End Role="staff" Type="Self.staff" Multiplicity="1" />
+          <End Role="rental" Type="Self.rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="rental">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_staff_store">
+          <End Role="store" Type="Self.store" Multiplicity="1" />
+          <End Role="staff" Type="Self.staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store">
+              <PropertyRef Name="store_id" />
+            </Principal>
+            <Dependent Role="staff">
+              <PropertyRef Name="store_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_store_staff">
+          <End Role="staff" Type="Self.staff" Multiplicity="1" />
+          <End Role="store" Type="Self.store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="store">
+              <PropertyRef Name="manager_staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sakilaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="payment" EntityType="Self.payment" />
+          <EntitySet Name="rental" EntityType="Self.rental" />
+          <EntitySet Name="staff" EntityType="Self.staff" />
+          <EntitySet Name="store" EntityType="Self.store" />
+          <AssociationSet Name="fk_payment_rental" Association="Self.fk_payment_rental">
+            <End Role="rental" EntitySet="rental" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_payment_staff" Association="Self.fk_payment_staff">
+            <End Role="staff" EntitySet="staff" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_rental_staff" Association="Self.fk_rental_staff">
+            <End Role="staff" EntitySet="staff" />
+            <End Role="rental" EntitySet="rental" />
+          </AssociationSet>
+          <AssociationSet Name="fk_staff_store" Association="Self.fk_staff_store">
+            <End Role="store" EntitySet="store" />
+            <End Role="staff" EntitySet="staff" />
+          </AssociationSet>
+          <AssociationSet Name="fk_store_staff" Association="Self.fk_store_staff">
+            <End Role="staff" EntitySet="staff" />
+            <End Role="store" EntitySet="store" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="sakilaModelStoreContainer" CdmEntityContainer="sakilaEntities">
+          <EntitySetMapping Name="payment">
+            <EntityTypeMapping TypeName="sakilaModel.payment">
+              <MappingFragment StoreEntitySet="payment">
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="rental_id" ColumnName="rental_id" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rental">
+            <EntityTypeMapping TypeName="sakilaModel.rental">
+              <MappingFragment StoreEntitySet="rental">
+                <ScalarProperty Name="rental_id" ColumnName="rental_id" />
+                <ScalarProperty Name="rental_date" ColumnName="rental_date" />
+                <ScalarProperty Name="inventory_id" ColumnName="inventory_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="return_date" ColumnName="return_date" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="staff">
+            <EntityTypeMapping TypeName="sakilaModel.staff">
+              <MappingFragment StoreEntitySet="staff">
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="store_id" ColumnName="store_id" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="store">
+            <EntityTypeMapping TypeName="sakilaModel.store">
+              <MappingFragment StoreEntitySet="store">
+                <ScalarProperty Name="store_id" ColumnName="store_id" />
+                <ScalarProperty Name="manager_staff_id" ColumnName="manager_staff_id" />
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

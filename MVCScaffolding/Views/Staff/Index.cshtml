@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Sakila.staff>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstSortParm })
+            @*@Html.DisplayNameFor(model => model.first_name)*@
+        </th>
+        <th>
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastSortParm })
+            @*@Html.DisplayNameFor(model => model.last_name)*@
+        </th>
+        <th>
+            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm })
+            @*@Html.DisplayNameFor(model => model.email)*@
+        </th>
+        <th>
+            @Html.ActionLink("Active", "Index", new { sortOrder = ViewBag.ActiveSortParm })
+            @*@Html.DisplayNameFor(model => model.active)*@
+        </th>
+        <th>
+            @Html.ActionLink("Username", "Index", new { sortOrder = ViewBag.UsernameSortParm })
+            @*@Html.DisplayNameFor(model => model.username)*@
+        </th>
+        <th>
+            @Html.ActionLink("Last Update", "Index", new { sortOrder = ViewBag.LastUpdateSortParm })
+            @*@Html.DisplayNameFor(model => model.last_update)*@
+        </th>
+        <th>
+            @Html.ActionLink("Store ID", "Index", new { sortOrder = ViewBag.StoreID })
+            @*@Html.DisplayNameFor(model => model.store.store_id)*@
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.first_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.last_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.last_update)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.store.store_id)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.staff_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.staff_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.staff_id })
+        </td>
+    </tr>
+}
+
+</table>

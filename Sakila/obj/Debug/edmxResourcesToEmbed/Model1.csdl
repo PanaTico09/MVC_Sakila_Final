@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="sakilaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="payment">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customer_id" Type="Int32" Nullable="false" />
+    <Property Name="staff_id" Type="Byte" Nullable="false" />
+    <Property Name="rental_id" Type="Int32" />
+    <Property Name="amount" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="rental" Relationship="Self.fk_payment_rental" FromRole="payment" ToRole="rental" />
+    <NavigationProperty Name="staff" Relationship="Self.fk_payment_staff" FromRole="payment" ToRole="staff" />
+  </EntityType>
+  <EntityType Name="rental">
+    <Key>
+      <PropertyRef Name="rental_id" />
+    </Key>
+    <Property Name="rental_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rental_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="inventory_id" Type="Int32" Nullable="false" />
+    <Property Name="customer_id" Type="Int32" Nullable="false" />
+    <Property Name="return_date" Type="DateTime" Precision="3" />
+    <Property Name="staff_id" Type="Byte" Nullable="false" />
+    <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="payment" Relationship="Self.fk_payment_rental" FromRole="rental" ToRole="payment" />
+    <NavigationProperty Name="staff" Relationship="Self.fk_rental_staff" FromRole="rental" ToRole="staff" />
+  </EntityType>
+  <EntityType Name="staff">
+    <Key>
+      <PropertyRef Name="staff_id" />
+    </Key>
+    <Property Name="staff_id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="first_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="last_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address_id" Type="Int32" Nullable="false" />
+    <Property Name="picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="store_id" Type="Int32" Nullable="false" />
+    <Property Name="active" Type="Boolean" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="payment" Relationship="Self.fk_payment_staff" FromRole="staff" ToRole="payment" />
+    <NavigationProperty Name="rental" Relationship="Self.fk_rental_staff" FromRole="staff" ToRole="rental" />
+    <NavigationProperty Name="store" Relationship="Self.fk_staff_store" FromRole="staff" ToRole="store" />
+    <NavigationProperty Name="store1" Relationship="Self.fk_store_staff" FromRole="staff" ToRole="store" />
+  </EntityType>
+  <EntityType Name="store">
+    <Key>
+      <PropertyRef Name="store_id" />
+    </Key>
+    <Property Name="store_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="manager_staff_id" Type="Byte" Nullable="false" />
+    <Property Name="address_id" Type="Int32" Nullable="false" />
+    <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="staff" Relationship="Self.fk_staff_store" FromRole="store" ToRole="staff" />
+    <NavigationProperty Name="staff1" Relationship="Self.fk_store_staff" FromRole="store" ToRole="staff" />
+  </EntityType>
+  <Association Name="fk_payment_rental">
+    <End Role="rental" Type="Self.rental" Multiplicity="0..1" />
+    <End Role="payment" Type="Self.payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rental">
+        <PropertyRef Name="rental_id" />
+      </Principal>
+      <Dependent Role="payment">
+        <PropertyRef Name="rental_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_payment_staff">
+    <End Role="staff" Type="Self.staff" Multiplicity="1" />
+    <End Role="payment" Type="Self.payment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="staff">
+        <PropertyRef Name="staff_id" />
+      </Principal>
+      <Dependent Role="payment">
+        <PropertyRef Name="staff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_rental_staff">
+    <End Role="staff" Type="Self.staff" Multiplicity="1" />
+    <End Role="rental" Type="Self.rental" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="staff">
+        <PropertyRef Name="staff_id" />
+      </Principal>
+      <Dependent Role="rental">
+        <PropertyRef Name="staff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_staff_store">
+    <End Role="store" Type="Self.store" Multiplicity="1" />
+    <End Role="staff" Type="Self.staff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="store">
+        <PropertyRef Name="store_id" />
+      </Principal>
+      <Dependent Role="staff">
+        <PropertyRef Name="store_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_store_staff">
+    <End Role="staff" Type="Self.staff" Multiplicity="1" />
+    <End Role="store" Type="Self.store" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="staff">
+        <PropertyRef Name="staff_id" />
+      </Principal>
+      <Dependent Role="store">
+        <PropertyRef Name="manager_staff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="sakilaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="payment" EntityType="Self.payment" />
+    <EntitySet Name="rental" EntityType="Self.rental" />
+    <EntitySet Name="staff" EntityType="Self.staff" />
+    <EntitySet Name="store" EntityType="Self.store" />
+    <AssociationSet Name="fk_payment_rental" Association="Self.fk_payment_rental">
+      <End Role="rental" EntitySet="rental" />
+      <End Role="payment" EntitySet="payment" />
+    </AssociationSet>
+    <AssociationSet Name="fk_payment_staff" Association="Self.fk_payment_staff">
+      <End Role="staff" EntitySet="staff" />
+      <End Role="payment" EntitySet="payment" />
+    </AssociationSet>
+    <AssociationSet Name="fk_rental_staff" Association="Self.fk_rental_staff">
+      <End Role="staff" EntitySet="staff" />
+      <End Role="rental" EntitySet="rental" />
+    </AssociationSet>
+    <AssociationSet Name="fk_staff_store" Association="Self.fk_staff_store">
+      <End Role="store" EntitySet="store" />
+      <End Role="staff" EntitySet="staff" />
+    </AssociationSet>
+    <AssociationSet Name="fk_store_staff" Association="Self.fk_store_staff">
+      <End Role="staff" EntitySet="staff" />
+      <End Role="store" EntitySet="store" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

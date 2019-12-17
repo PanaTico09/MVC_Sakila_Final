@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Sakila.payment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+           
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.customer_id)*@
+            @Html.ActionLink("Customer ID", "Index", new { sortOrder = ViewBag.CustSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParm })
+            @*@Html.DisplayNameFor(model => model.amount)*@
+        </th>
+        <th>
+            @Html.ActionLink("Payment Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+            @*@Html.DisplayNameFor(model => model.payment_date)*@
+        </th>
+        <th>
+            @Html.ActionLink("Last Update", "Index", new { sortOrder = ViewBag.LastUpdateSortParm })
+            @*@Html.DisplayNameFor(model => model.last_update)*@
+        </th>
+        <th>
+            @Html.ActionLink("Rental ID", "Index", new { sortOrder = ViewBag.RentalIDSortParm })
+            @*@Html.DisplayNameFor(model => model.rental.rental_id)*@
+        </th>
+        <th>
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.NameSortParm})
+            @*@Html.DisplayNameFor(model => model.staff.first_name)*@
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.payment_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.last_update)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.rental.rental_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.staff.first_name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.payment_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.payment_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.payment_id })
+            </td>
+        </tr>
+    }
+
+</table>
